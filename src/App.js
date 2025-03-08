@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import './App.css';
 import { getAllPokemon,getPokemon } from './utils/pokemon';
+import Card from './components/Card';
 
 function App() {
 const initialURL = "https://pokeapi.co/api/v2/pokemon"
 const [loading, setLoading] = useState(true);
+const [pokemonData, setPokemonData] = useState([]);
 
 useEffect(() => {
   
@@ -19,19 +21,29 @@ useEffect(() => {
   fetchPokemonData();
 
 },[])
-const loadPokemon =async(data)=>{
-  const _pokemonData = await Promise.all(
+const loadPokemon = async(data)=>{
+  let _pokemonData = await Promise.all(
     data.map((pokemon)=>{
-      const pokemonRecord = getPokemon(pokemon.url)
+      let pokemonRecord = getPokemon(pokemon.url)
       return pokemonRecord
 }) 
   )
+  setPokemonData(_pokemonData);
 }
+console.log(pokemonData);
 
 
   return (
     <div className="App">
-     {loading ? <h1>ローディング中</h1> : <h1>データ取得完了</h1>}
+      {loading ? <h1>Loading...</h1> : (
+        <>
+        <div className="grid-container">
+          {pokemonData.map((pokemon, i) => {
+            return <Card key={i} pokemon={pokemon} />
+          })}
+        </div>
+        </>
+      )}
     </div>
   );
 }
