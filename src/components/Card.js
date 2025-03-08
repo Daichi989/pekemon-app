@@ -8,7 +8,23 @@ const Card = ({pokemon}) => {
         </div>
         <h3 className='cardName'>{pokemon.name}</h3>
         <div className='cardTypes'>
-            
+            <div>タイプ</div>
+            {pokemon.types.map((type)=>{
+              return(
+                <div className='typeName'>{type.type.name}</div>
+              )
+            })}
+        </div>
+        <div className='cardInfo'>
+            <div className='cardData'>
+                <p className='title'>重さ:{pokemon.weight}</p>
+            </div>
+            <div className='cardData'>
+                <p className='title'>高さ:{pokemon.height}</p>
+            </div>
+            <div className='cardData'>
+                <p className='title'>アビリティ:{pokemon.abilities[0].ability.name}</p>
+            </div>
         </div>
     </div>
   )
